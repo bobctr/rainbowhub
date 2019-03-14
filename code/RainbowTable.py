@@ -4,15 +4,16 @@ import configparser
 import hashlib
 import random
 import logging
-import string
+import pickle
 
 
 class RainbowTable:
 
     def updateConfig(self):
-        """load configuration from config.ini and set logger
         """
-        logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+        loads configuration from config.ini and sets logger
+        """
+        #logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
         self.config = configparser.ConfigParser()
         self.config.read(constants.MAIN_CONFIG_FILE)
         #TODO log
@@ -21,7 +22,7 @@ class RainbowTable:
     def __init__(self, algorithm, charset, min_length, max_length, chain_length, number_of_chains):
         self.updateConfig()
         
-        #load algorithm
+        #load algorithm TODO manage arguments better
         if(algorithm == "sha1"):
             self.algorithm = Algorithms.SHA1
         elif(algorithm == "mda5"):
@@ -49,8 +50,9 @@ class RainbowTable:
     
     def reduceFunctionSHA1(self, hashString, index):
         reducedValue = ""
-        for i in range(random.randint(self.min_length,self.max_length)):
-            reducedValue = reducedValue + hashString[((index + i) ^ 31) % 15]
+        randomInt = random.randint(self.min_length,self.max_length)
+        for i in range(randomInt):
+            reducedValue += hashString[((index + i) ^ 31) % len(hashString)]
         return reducedValue
 
 
@@ -68,11 +70,13 @@ class RainbowTable:
     def generateChain(self, password):
         reduced = password
         for i in range(self.chain_length):
-            hash = self.hashFunction(reduced)
-            reduced = self.reduceFunction(hash,i)
-            print('generated tuple: (%s,%s)',hash,reduced)
-        logging.debug('final generated tuple: (%s,%s)',password,hash)
-        return (password, hash)
+            hashTemp = self.hashFunction(reduced)
+            reduced = self.reduceFunction(hashTemp,i)
+            logging.debug('generated tuple: (%s,%s)',hashTemp,reduced)
+            print(reduced, hashTemp)
+        logging.debug('final generated tuple: (%s,%s)',password,hashTemp)
+        #print(password, hashTemp)
+        return hashTemp
 
 
     def generate(self):
@@ -80,19 +84,61 @@ class RainbowTable:
         self.table = {}
         for i in range(self.number_of_chains):
             randomPassword = ''.join(random.sample(self.charset,random.randint(self.min_length,self.max_length)))
-            newChain = self.generateChain(randomPassword)
-            if(newChain in self.table):
+            chainTail = self.generateChain(randomPassword)
+            if(chainTail in self.table):
                 collisions += 1
             else:
-                self.table[i] = newChain
-        print("collisions: " + str(collisions))
-        print(self.table)
+                self.table[randomPassword] = chainTail
 
 
-    def serialize(self, parameter_list):
-        pass
+    def saveToFile(self, fileName):
+        if (fileName is None):
+            return False
+        fd = open(fileName,"wb")
+        if(fd.write(pickle.dumps(self)) > 0):
+            return True
+        return False
+
+    
+    @staticmethod
+    def loadFromFile(fileName):
+        try:
+            fd = open(fileName,"rb")
+        except IOError:
+            logging.error("File " + fileName + " not found")
+        
+        objectLoaded = pickle.load(fd)
+        if(type(objectLoaded) is RainbowTable):
+            return objectLoaded
+        return None
+
+
+    def lookup(self, hashToCrack):
+        for i in range(self.chain_length-1, -1 , -1):
+            hashTemp = hashToCrack
+            j = i
+            for j in range(self.chain_length):
+                reduced = self.reduceFunction(hashTemp,j)
+                hashTemp = self.hashFunction(reduced)
+                if(reduced in self.table.keys()):
+                    return self.crack(reduced,hashToCrack)
+        return None
+
+        
+    def crack(self, reduced, hashToCrack):
+        for i in range(self.chain_length):
+            hashTemp = self.hashFunction(reduced)
+            if(hashTemp == hashToCrack):
+                return reduced
+            reduced = self.reduceFunction(hashTemp,i)
+        return None 
+                    
+
+
 
 
 if __name__ == "__main__":
     test = RainbowTable("sha1","alphanumeric",5,10,20,30)
     test.generate()
+    test.lookup("ciaoo")
+    print("ciao")

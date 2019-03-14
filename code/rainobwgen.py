@@ -11,9 +11,12 @@ try:
     parser.add_argument("max_length", help="maximum length of passwords",type=int)
     parser.add_argument("chain_length", help="length of each chain",type=int)
     parser.add_argument("number_of_chains", help="number of chains generated",type=int)
+    parser.add_argument("output_file", help="name of output file")
     args = parser.parse_args()
 
     rt = RainbowTable(args.algorithm, args.charset, args.min_length, args.max_length, args.chain_length, args.number_of_chains)
+    rt.generate()
+    rt.serialize(args.output_file)
 
     #TODO log
     print(rt.algorithm)
