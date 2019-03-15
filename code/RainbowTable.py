@@ -5,6 +5,7 @@ import hashlib
 import random
 import logging
 import pickle
+import itertools
 
 
 class RainbowTable:
@@ -73,7 +74,6 @@ class RainbowTable:
             hashTemp = self.hashFunction(reduced)
             reduced = self.reduceFunction(hashTemp,i)
             logging.debug('generated tuple: (%s,%s)',hashTemp,reduced)
-            print(reduced, hashTemp)
         logging.debug('final generated tuple: (%s,%s)',password,hashTemp)
         #print(password, hashTemp)
         return hashTemp
@@ -88,7 +88,8 @@ class RainbowTable:
             if(chainTail in self.table):
                 collisions += 1
             else:
-                self.table[randomPassword] = chainTail
+                self.table[chainTail] = randomPassword
+        print(collisions)
 
 
     def saveToFile(self, fileName):
@@ -114,18 +115,20 @@ class RainbowTable:
 
 
     def lookup(self, hashToCrack):
+        if(hashToCrack in self.table):
+            return self.crack(self.table[hashToCrack],hashToCrack)
         for i in range(self.chain_length-1, -1 , -1):
             hashTemp = hashToCrack
-            j = i
-            for j in range(self.chain_length):
+            for j in range(i,self.chain_length):
                 reduced = self.reduceFunction(hashTemp,j)
                 hashTemp = self.hashFunction(reduced)
-                if(reduced in self.table.keys()):
-                    return self.crack(reduced,hashToCrack)
+                if(hashTemp in self.table):
+                    return self.crack(self.table[hashTemp],hashToCrack)
         return None
 
         
-    def crack(self, reduced, hashToCrack):
+    def crack(self, chainHead, hashToCrack):
+        reduced = chainHead
         for i in range(self.chain_length):
             hashTemp = self.hashFunction(reduced)
             if(hashTemp == hashToCrack):
@@ -138,7 +141,15 @@ class RainbowTable:
 
 
 if __name__ == "__main__":
-    test = RainbowTable("sha1","alphanumeric",5,10,20,30)
+    test = RainbowTable("sha1","alphanumeric",2,2,20,20)
     test.generate()
-    test.lookup("ciaoo")
+    print(test.table)
+    found = 0
+    for perm in itertools.permutations("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",2):
+        passw = test.lookup(test.hashFunction(''.join(perm)))
+        if(passw is not None):
+            print(passw)
+            found += 1
+    print('found ' + str(found))
+        
     print("ciao")
