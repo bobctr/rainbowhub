@@ -3,5 +3,3 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.6.7
-
-    working_directory: ~/RainbowHub
