@@ -1,5 +1,5 @@
-import constants
-from algorithms import Algorithms
+import code.constants
+from code.algorithm import Algorithm
 import configparser
 import hashlib
 import random
@@ -16,7 +16,7 @@ class RainbowTable:
         """
         #logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
         self.config = configparser.ConfigParser()
-        self.config.read(constants.MAIN_CONFIG_FILE)
+        self.config.read(code.constants.MAIN_CONFIG_FILE)
         #TODO log
 
 
@@ -25,16 +25,16 @@ class RainbowTable:
         
         #load algorithm TODO manage arguments better
         if(algorithm == "sha1"):
-            self.algorithm = Algorithms.SHA1
-        elif(algorithm == "mda5"):
-            self.algorithm = Algorithms.MD5
+            self.algorithm = Algorithm.SHA1
+        elif(algorithm == "md5"):
+            self.algorithm = Algorithm.MD5
         else:
             raise ValueError("Algorithm not supported")
               
         #load charset
-        if(self.config[constants.CHARSETS_SECTION][charset] == None):
+        if(self.config[code.constants.CHARSETS_SECTION][charset] == None):
             raise ValueError("Charset not supported. For custom charset, edit the file config.ini")
-        self.charset = self.config[constants.CHARSETS_SECTION][charset]
+        self.charset = self.config[code.constants.CHARSETS_SECTION][charset]
 
         self.min_length = min_length
         self.max_length = max_length
@@ -43,10 +43,10 @@ class RainbowTable:
     
 
     def hashFunction(self, value):
-        if(self.algorithm == Algorithms.SHA1):
+        if(self.algorithm == Algorithm.SHA1):
             return hashlib.sha1(value.encode('utf-8')).hexdigest()
-        elif(self.algorithm == Algorithms.MD5):
-            return hashlib.md5(value)
+        elif(self.algorithm == Algorithm.MD5):
+            return hashlib.md5(value.encode('utf-8')).hexdigest()
 
     
     def reduceFunctionSHA1(self, hashString, index):
@@ -58,13 +58,13 @@ class RainbowTable:
 
 
     def reduceFunctionMD5(self, hashString, index):
-        pass
+        raise NotImplementedError()
 
 
     def reduceFunction(self, hashString, index):
-        if(self.algorithm == Algorithms.SHA1):
+        if(self.algorithm == Algorithm.SHA1):
             return self.reduceFunctionSHA1(hashString, index)
-        elif(self.algorithm == Algorithms.MD5):
+        elif(self.algorithm == Algorithm.MD5):
             return self.reduceFunctionMD5(hashString, index)
 
     
@@ -75,21 +75,20 @@ class RainbowTable:
             reduced = self.reduceFunction(hashTemp,i)
             logging.debug('generated tuple: (%s,%s)',hashTemp,reduced)
         logging.debug('final generated tuple: (%s,%s)',password,hashTemp)
-        #print(password, hashTemp)
         return hashTemp
 
 
-    def generate(self):
+    def generateTable(self):
         collisions = 0
         self.table = {}
-        for i in range(self.number_of_chains):
+        for _ in range(self.number_of_chains):
             randomPassword = ''.join(random.sample(self.charset,random.randint(self.min_length,self.max_length)))
             chainTail = self.generateChain(randomPassword)
             if(chainTail in self.table):
                 collisions += 1
             else:
                 self.table[chainTail] = randomPassword
-        print(collisions)
+        logging.debug("collisions detected: " + str(collisions))
 
 
     def saveToFile(self, fileName):
@@ -142,7 +141,7 @@ class RainbowTable:
 
 if __name__ == "__main__":
     test = RainbowTable("sha1","alphanumeric",2,2,20,20)
-    test.generate()
+    test.generateTable()
     print(test.table)
     found = 0
     for perm in itertools.permutations("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",2):

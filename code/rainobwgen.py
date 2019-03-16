@@ -1,6 +1,6 @@
 import argparse
 import sys
-from RainbowTable import RainbowTable
+from code.RainbowTable import RainbowTable
 
 try:
     parser = argparse.ArgumentParser()
@@ -15,7 +15,7 @@ try:
     args = parser.parse_args()
 
     rt = RainbowTable(args.algorithm, args.charset, args.min_length, args.max_length, args.chain_length, args.number_of_chains)
-    rt.generate()
+    rt.generateTable()
     rt.serialize(args.output_file)
 
     #TODO log
