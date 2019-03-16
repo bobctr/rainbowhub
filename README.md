@@ -1,5 +1,3 @@
-# RainbowHub
+# RainbowHub ! [CircleCI (all branches)](https://img.shields.io/circleci/project/github/bobctr/RainbowHub.svg?label=build&logo=build)
 
 Simple Rainbow tables implementation
-
-[![CircleCI](https://circleci.com/gh/bobctr/RainbowHub.svg?style=shield)](https://circleci.com/gh/bobctr/RainbowHub)
