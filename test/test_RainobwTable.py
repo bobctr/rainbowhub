@@ -21,12 +21,12 @@ def test_hashFunction():
     assert testTable.hashFunction("rainbowtable") == "c055588e18df56f877f3c3ca73790ecd"
 
 
-def test_reduceFunctionSHA1():
+def test_reduceFunction():
     testTable = RainbowTable("sha1","alphanumeric",4,7,1,1)
     for i in range(50):
         randomstring = ''.join(random.choices(string.ascii_lowercase, k=5))
         hashString = testTable.hashFunction(randomstring)
-        reduced = testTable.reduceFunctionSHA1(hashString,i)
+        reduced = testTable.reduceFunction(hashString,i)
         assert set(reduced) <= set(testTable.charset)
         assert len(reduced) in range(4,8)
 
