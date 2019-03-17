@@ -1,5 +1,11 @@
 # RainbowHub
+![CircleCI (all branches)](https://img.shields.io/circleci/project/github/bobctr/RainbowHub.svg)
 
-Simple Rainbow tables implementation
+Simple Rainbow tables implementation.
 
-[![CircleCI](https://circleci.com/gh/bobctr/RainbowHub.svg?style=svg)](https://circleci.com/gh/bobctr/RainbowHub)
+Key features:
+  - Custom rainbow table generator
+  - SHA1 and MD5 support
+  - Table serialization (can load from file)
+
+
