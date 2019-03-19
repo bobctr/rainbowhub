@@ -1,13 +1,13 @@
-import argparse
 import sys
-from code.RainbowTable import RainbowTable
+import os
+import argparse
+from RainbowTable import RainbowTable
 
 try:
     parser = argparse.ArgumentParser()
     parser.add_argument("algorithm", help="sha1 or mda5")
     parser.add_argument("charset", help="charset must be included in config.ini")
     parser.add_argument("min_length", help="minimum length of passwords",type=int)
-    parser.add_argument("max_length", help="maximum length of passwords",type=int)
     parser.add_argument("max_length", help="maximum length of passwords",type=int)
     parser.add_argument("chain_length", help="length of each chain",type=int)
     parser.add_argument("number_of_chains", help="number of chains generated",type=int)
@@ -16,13 +16,8 @@ try:
 
     rt = RainbowTable(args.algorithm, args.charset, args.min_length, args.max_length, args.chain_length, args.number_of_chains)
     rt.generateTable()
-    rt.serialize(args.output_file)
+    print(rt.table)
+    rt.saveToFile(args.output_file)
 
-    #TODO log
-    print(rt.algorithm)
-    print(rt.charset)
-    print(rt.min_length)
-    print(rt.max_length)
-except:
-    e = sys.exc_info()[0]
-    print(e)
+except Exception as e:
+    print("ERROR: " + str(e))
