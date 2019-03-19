@@ -11,10 +11,11 @@ try:
     args = parser.parse_args()
 
     rt = RainbowTable.loadFromFile(args.rainbow_table_file)
-    psw = rt.lookup(args.hash_string)
+    psw = rt.lookup(bytes.fromhex(args.hash_string))
     if(psw is not None):
         print("Candidate found: " + psw)
-    print("No match found")
+    else:
+        print("No match found")
 
 except Exception as e:
-    print("ERROR: " + e)
+    print("ERROR: " + str(e))

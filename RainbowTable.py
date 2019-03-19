@@ -89,9 +89,9 @@ class RainbowTable:
 		reduced = password
 		for i in range(self.chain_length):
 			hashTemp = self.hashFunction(reduced)
-			#logging.debug(reduced + "-->" + hashTemp)
+			logging.debug(reduced + "-->" + hashTemp.hex())
 			reduced = self.reduceFunction(hashTemp,i)
-		logging.debug("------------------------------------->" + str(hashTemp))
+		logging.debug("------------------------------------->" + hashTemp.hex())
 		return hashTemp
 
 	def generateTable(self):
@@ -122,13 +122,9 @@ class RainbowTable:
  
 	@staticmethod
 	def loadFromFile(fileName):
-		try:
-			fd = open(fileName, "rb")
-		except ValueError:
-			logging.error("File " + fileName + " not found")
-		
-		objectLoaded = pickle.load(fd)
-		if(isinstance(objectLoaded, RainbowTable)):
+		with open(fileName, 'rb') as inputFile:				
+			objectLoaded = pickle.load(inputFile)
+		if(not isinstance(objectLoaded, RainbowTable)):
 			raise ValueError("The file " + fileName + " does not contain a valid table")
 		return objectLoaded
 		
@@ -143,7 +139,7 @@ class RainbowTable:
 				hashTemp = self.hashFunction(reduced)
 				if(hashTemp in self.table):
 					print("chain matched: " + self.table[hashTemp] + " --> " 
-						+ hashTemp + " after " + str(self.chain_length-i) + " iterations"
+						+ hashTemp.hex() + " after " + str(self.chain_length-i) + " iterations"
 					)
 					psw = self.crack(self.table[hashTemp], hashToCrack)
 					if(psw is not None):
