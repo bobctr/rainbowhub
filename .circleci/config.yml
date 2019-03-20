@@ -10,7 +10,7 @@ jobs:
       - image: circleci/python:3.7.1
     steps:
       - checkout
-      - run: pip install coveralls --user
+      - run: pip install pytest coveralls --user
       - run: $HOME/.local/bin/coverage run -m pytest
       - run: $HOME/.local/bin/coverage report
       - run: $HOME/.local/bin/coverage html
