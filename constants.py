@@ -1,3 +1,3 @@
 # config ###
-MAIN_CONFIG_FILE = '/home/bobctr/Documents/work/rainbowhub/config/config.ini'
+MAIN_CONFIG_FILE = 'config/config.ini'
 CHARSETS_SECTION = 'CHARSETS'

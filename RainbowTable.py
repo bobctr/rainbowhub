@@ -51,8 +51,11 @@ class RainbowTable:
 			raise ValueError("Algorithm not supported")
 			  
 		# load charset
-		if(charset not in self.config[constants.CHARSETS_SECTION]):
-			raise ValueError("Charset not supported. For custom charset, edit the file config.ini")
+
+		if(self.config is not None and charset not in self.config[constants.CHARSETS_SECTION]):
+			raise ValueError(
+				"Charset not supported. For custom charset, edit the file config/config.ini"
+			)
 		self.charset = self.config[constants.CHARSETS_SECTION][charset]
 
 		self.min_length = min_length
