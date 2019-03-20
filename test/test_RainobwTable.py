@@ -1,12 +1,12 @@
 import os
 import sys
 import pytest
-from RainbowTable import RainbowTable
-from algorithm import Algorithm
 import string
 import hashlib
 import uuid
 import random
+from RainbowTable import RainbowTable
+from algorithm import Algorithm
 
 def test_init():
 	testTable = RainbowTable("sha1","alphanumeric",1,1,1,1)
@@ -36,7 +36,9 @@ def test_reduceFunction():
 def test_generateTable():
 	testTable = RainbowTable("sha1","alphanumeric",2,4,5,30)
 	testTable.generateTable()
-	assert len(testTable.table) == 30
+	first_chain = testTable.table.popitem()
+	assert len(first_chain[0]) == 20  
+	assert len(first_chain[1]) in range(2,5)
 
 def test_saveAndload(tmpdir):
 	testTable = RainbowTable("sha1","alphanumeric",2,4,5,10)

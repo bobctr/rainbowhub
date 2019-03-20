@@ -29,6 +29,5 @@ pip-delete-this-directory.txt
 nosetests.xml
 coverage.xml
 
-config/config.ini
 .vscode/
 *.log

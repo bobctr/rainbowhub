@@ -9,7 +9,6 @@ import itertools
 import constants
 from algorithm import Algorithm
 
-
 class RainbowTable:
 
 	def load_config(self):
