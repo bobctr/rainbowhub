@@ -5,25 +5,16 @@ jobs:
       - image: circleci/python:3.7.1
     steps:
       - checkout
-  test:
+  test_and_coverage:
     docker:
       - image: circleci/python:3.7.1
     steps:
       - checkout
-      - run:
-        name: Setup testing environment
-        command: |
-          pip install '.[test]' --user
-          echo $HOME
-      - run:
-        name: Run Tests
-        command: |
-          $HOME/.local/bin/coverage run -m pytest
-          $HOME/.local/bin/coverage report
-          $HOME/.local/bin/coverage html
-          $HOME/.local/bin/coveralls
-      - store_artifacts:
-        path: htmlcov
+      - run: pip install coveralls
+      - run: coverage run -m pytest
+      - run: coverage report
+      - run: coverage html
+      - run: coveralls
 
 workflows:
   version: 2
