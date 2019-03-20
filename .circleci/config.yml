@@ -11,10 +11,10 @@ jobs:
     steps:
       - checkout
       - run: pip install coveralls --user
-      - run: coverage run -m pytest
-      - run: coverage report
-      - run: coverage html
-      - run: coveralls
+      - run: $HOME/.local/bin/coverage run -m pytest
+      - run: $HOME/.local/bin/coverage report
+      - run: $HOME/.local/bin/coverage html
+      - run: $HOME/.local/bin/coveralls
 
 workflows:
   version: 2
