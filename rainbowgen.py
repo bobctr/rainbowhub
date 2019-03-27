@@ -1,7 +1,7 @@
 import sys
 import os
 import argparse
-from RainbowTable import RainbowTable
+from rainbowtable import RainbowTable
 
 try:
     parser = argparse.ArgumentParser()
@@ -15,9 +15,8 @@ try:
     args = parser.parse_args()
 
     rt = RainbowTable(args.algorithm, args.charset, args.min_length, args.max_length, args.chain_length, args.number_of_chains)
-    rt.generateTable()
-    print(rt.table)
-    rt.saveToFile(args.output_file)
+    rt.generate_table()
+    rt.save_to_file(args.output_file)
 
 except Exception as e:
     print("ERROR: " + str(e))
