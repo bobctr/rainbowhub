@@ -1,5 +1,5 @@
 # RainbowHub
-[![CircleCI](https://circleci.com/gh/bobctr/rainbowhub.svg?style=shield)](https://circleci.com/gh/bobctr/rainbowhub) [![Coverage Status](https://coveralls.io/repos/github/bobctr/RainbowHub/badge.svg?branch=master)](https://coveralls.io/github/bobctr/RainbowHub?branch=master)
+[![CircleCI](https://circleci.com/gh/bobctr/rainbowhub.svg?style=svg)](https://circleci.com/gh/bobctr/rainbowhub) [![Coverage Status](https://coveralls.io/repos/github/bobctr/RainbowHub/badge.svg?branch=master)](https://coveralls.io/github/bobctr/RainbowHub?branch=master)
 
 Simple Rainbow tables implementation.
 
