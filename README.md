@@ -3,6 +3,19 @@
 
 Simple Rainbow tables implementation.
 
+## What is a rainbow table?
+https://en.wikipedia.org/wiki/Rainbow_table
+https://www.geeksforgeeks.org/understanding-rainbow-table-attack/
+
+## What I have learned
+The purpose of this project is to understand how a rainbow table is implemented and used, with a practical approach.
+While developing, I found myself dealing with various challenges, that gave me a deeper understanding on:
+  1. How hashing and rainbow tables work, and how some hashing algorithms can be exploited efficiently, finding the compromise between a brute-force approach and a pure lookup table
+  2. How to master and combine common data structures to build an efficient solution (lists, dictionaries, ...)
+  3. Python API
+  4. Python Unit Tests
+  5. Continuous Integration (build, test, code coverage) 
+
 ## Key features
   - Custom rainbow table generator
   - SHA1 and MD5 support
@@ -12,7 +25,6 @@ Simple Rainbow tables implementation.
 All the charset available with their respective names are written in ```config/config.ini```.
 If you want to add a custom one, just add it at the end of the file.
 
-
 ### Run
 To generate a new table:
 
@@ -20,7 +32,7 @@ To generate a new table:
 python3 rainbowgen.py algorithm_name charset_name min_password_length max_massword_length chain_length n_chains output_file
 ```
 
-To launch it against a hash:
+To try cracking a hash:
 
 ```
 python3 rainbowcrack.py hash_string table_file
