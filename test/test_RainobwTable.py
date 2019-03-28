@@ -6,7 +6,6 @@ import random
 from rainbowtable import RainbowTable
 from algorithm import Algorithm
 
-
 def test_init():
     test_table = RainbowTable("sha1", "alphanumeric", 1, 1, 1, 1)
     assert test_table.config is not None

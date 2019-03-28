@@ -4,12 +4,11 @@ import random
 import logging
 import pickle
 import itertools
-import constants
+from constants import CHARSETS_SECTION, MAIN_CONFIG_FILE
 from algorithm import Algorithm
 
 
 class RainbowTable:
-
 
     def load_config(self):
         """
@@ -21,7 +20,7 @@ class RainbowTable:
         )
         logging.debug("loading configuration")
         self.config = configparser.ConfigParser()
-        self.config.read(constants.MAIN_CONFIG_FILE)
+        self.config.read(MAIN_CONFIG_FILE)
         logging.debug(self.config)
 
 
@@ -52,11 +51,11 @@ class RainbowTable:
             raise ValueError("Algorithm not supported")
 
         # load charset
-        if(self.config is not None and charset not in self.config[constants.CHARSETS_SECTION]):
+        if(self.config is not None and charset not in self.config[CHARSETS_SECTION]):
             raise ValueError(
                 "Charset not supported. For custom charset, edit the file config/config.ini"
             )
-        self.charset = self.config[constants.CHARSETS_SECTION][charset]
+        self.charset = self.config[CHARSETS_SECTION][charset]
 
         self.min_length = min_length
         self.max_length = max_length
@@ -216,7 +215,7 @@ class RainbowTable:
         '''tries to crack a given hash on a single chain
         
         Arguments:
-            chainhead {string} -- chain head
+            chainhead {string}
             hash_to_crack {string}
         
         Returns:

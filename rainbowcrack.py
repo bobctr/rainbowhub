@@ -1,16 +1,16 @@
 import sys
 import os
 import argparse
-from RainbowTable import RainbowTable 
+from rainbowtable import RainbowTable
 
 try:
     parser = argparse.ArgumentParser()
     parser.add_argument("hash_string", help="hash to crack")
     parser.add_argument("rainbow_table_file", help="name of file containing a valid rainbow table"
-    "(generated from rainbowgen.py)")
+    " (generated from rainbowgen.py)")
     args = parser.parse_args()
 
-    rt = RainbowTable.loadFromFile(args.rainbow_table_file)
+    rt = RainbowTable.load_from_file(args.rainbow_table_file)
     psw = rt.lookup(bytes.fromhex(args.hash_string))
     if(psw is not None):
         print("Candidate found: " + psw)
