@@ -15,13 +15,7 @@ jobs:
       - run: pip install pytest pytest-cov --user
       - run: python -m pytest --cov=rainbowtable
       - codecov/upload:
-          file: .coverage 
-
-      - store_test_results:
-          path: test-reports
-
-      - store_artifacts:
-          path: test-reports
+          file: .coverage
 
 workflows:
   version: 2
