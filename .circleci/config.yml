@@ -14,7 +14,8 @@ jobs:
       - checkout
       - run: pip install pytest pytest-cov --user
       - run: python -m pytest --cov=rainbowtable
-      - run: codecov
+      - codecov/upload:
+          file: {{ coverage_report_filepath }} 
 
       - store_test_results:
           path: test-reports
