@@ -11,10 +11,10 @@ jobs:
     steps:
       - checkout
       - run: pip install pytest coveralls --user
-      - run: $HOME/.local/bin/coverage run -m pytest --junitxml=test-reports/junit.xml
-      - run: $HOME/.local/bin/coverage report
-      - run: $HOME/.local/bin/coverage html
-      - run: $HOME/.local/bin/coveralls
+      - run: ~/.local/bin/coverage run --source ~/rainbowhub/test/ -m pytest --junitxml=test-reports/junit.xml
+      - run: ~/.local/bin/coverage report
+      - run: ~/.local/bin/coverage html
+      - run: ~/.local/bin/coveralls
 
       - store_test_results:
           path: test-reports
