@@ -1,6 +1,4 @@
 version: 2
-orbs:
-  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -12,10 +10,9 @@ jobs:
       - image: circleci/python:3.7.1
     steps:
       - checkout
-      - run: pip install pytest pytest-cov --user
+      - run: pip install pytest pytest-cov codecov --user
       - run: python -m pytest --cov=rainbowtable
-      - codecov/upload:
-          flags: rainbowtable
+      - run: codecov
 
 workflows:
   version: 2
