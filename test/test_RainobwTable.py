@@ -51,3 +51,11 @@ def test_save_and_load(tmpdir):
     sameTable = RainbowTable.load_from_file(
         str(tmpdir) + "/newSerializedTable.rt")
     assert test_table.table == sameTable.table
+
+
+def test_lookup():
+	test_table = RainbowTable.load_from_file("test/mocktable.ttest")
+	psw = test_table.lookup(
+		"e4815b09a6fdc84943f727b1611bd704899864ca"
+	)
+	assert psw == "cUK"

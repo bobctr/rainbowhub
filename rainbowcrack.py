@@ -11,7 +11,7 @@ try:
     args = parser.parse_args()
 
     rt = RainbowTable.load_from_file(args.rainbow_table_file)
-    psw = rt.lookup(bytes.fromhex(args.hash_string))
+    psw = rt.lookup(args.hash_string)
     if(psw is not None):
         print("Candidate found: " + psw)
     else:

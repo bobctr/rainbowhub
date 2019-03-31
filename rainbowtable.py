@@ -186,6 +186,7 @@ class RainbowTable:
         Returns:
             the plaintext if found, None otherwise
         '''
+        hash_to_crack = bytes.fromhex(hash_to_crack)
         if(hash_to_crack in self.table):
             logging.debug("first chain matched: " +
                   self.table[hash_to_crack] + " --> " + hash_to_crack)

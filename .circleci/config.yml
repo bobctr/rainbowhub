@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
       - run: pip install pytest coveralls --user
-      - run: ~/.local/bin/coverage run --source ~/rainbowhub/test/ -m pytest --junitxml=test-reports/junit.xml
+      - run: ~/.local/bin/coverage run --source=~/rainbowhub/test/ -m pytest --junitxml=test-reports/junit.xml
       - run: ~/.local/bin/coverage report
       - run: ~/.local/bin/coverage html
       - run: ~/.local/bin/coveralls
