@@ -11,7 +11,7 @@ https://www.geeksforgeeks.org/understanding-rainbow-table-attack/
 
 A **rainbow table** is a complex data structure used for hash cracking, whose main goal is making the task significantly more time-efficient than brute-forcing, while keeping the space on disk needed very small compared to hash tables.
 
-Rainbow tables contains *precomputed hash chains*, which are generated with a sequence of hash/reduce function application on a starting random plaintext, where only the head and the tail of each chain are stored
+Rainbow tables contains *precomputed hash chains*, which are generated with a sequence of hash/reduce function application on a starting random plaintext, where only the head and the tail of each chain are stored.
 These chains are then used during the cracking process, when the target hash is reduced/hashed multiple times until a match with a chain tail is found.
 After that, the corresponding chain is generated again until the target hash is matched.
 
